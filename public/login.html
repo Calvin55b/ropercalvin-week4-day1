@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/styles.css">
+  <title>Login | Your Portfolio</title>
+  <script src="config.js" defer></script>
+  <script type="module" defer>
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const loginForm = document.getElementById('loginForm');
+    const createAccountForm = document.getElementById('createAccountForm');
+    const message = document.getElementById('loginMessage');
+    const loginButton = document.getElementById('loginButton');
+    const createAccountButton = document.getElementById('createAccountButton');
+    const loggedInPanel = document.getElementById('loggedInPanel');
+    const loggedInEmail = document.getElementById('loggedInEmail');
+
+    function showMessage(text, isError = false) {
+      message.textContent = text;
+      message.className = isError ? 'auth-message error' : 'auth-message success';
+    }
+
+    function friendlyError(error) {
+      const errors = {
+        'auth/invalid-credential': 'The email or password is incorrect.',
+        'auth/user-not-found': 'No account was found for that email.',
+        'auth/wrong-password': 'The email or password is incorrect.',
+        'auth/email-already-in-use': 'An account already exists for that email.',
+        'auth/weak-password': 'Use a password with at least six characters.',
+        'auth/invalid-email': 'Enter a valid email address.'
+      };
+      return errors[error.code] || 'Something went wrong. Please try again.';
+    }
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      loginButton.disabled = true;
+      showMessage('Signing you in...');
+
+      try {
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        await signInWithEmailAndPassword(auth, email, password);
+        showMessage('Welcome aboard! You are signed in.');
+      } catch (error) {
+        showMessage(friendlyError(error), true);
+      } finally {
+        loginButton.disabled = false;
+      }
+    });
+
+    createAccountForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      createAccountButton.disabled = true;
+      showMessage('Creating your account...');
+
+      try {
+        const email = document.getElementById('createEmail').value.trim();
+        const password = document.getElementById('createPassword').value;
+        await createUserWithEmailAndPassword(auth, email, password);
+        showMessage('Your account is ready. Welcome aboard!');
+        createAccountForm.reset();
+      } catch (error) {
+        showMessage(friendlyError(error), true);
+      } finally {
+        createAccountButton.disabled = false;
+      }
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+      await signOut(auth);
+      showMessage('You have been signed out.');
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loggedInEmail.textContent = user.email;
+        loggedInPanel.hidden = false;
+      } else {
+        loggedInPanel.hidden = true;
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <header>
+    <span id="menu-icon" class="menu-icon">&#9776; Menu</span>
+    <nav class="show">
+      <img id="logoimg" src="logo.png" alt="Firebase logo">
+      <a href="index.html">Pong</a>
+      <a href="projects.html">Projects</a>
+      <a href="cr.html">Create and Read</a>
+      <a href="login.html" aria-current="page">Login</a>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <section class="auth-card" aria-labelledby="loginTitle">
+      <p class="eyebrow">Welcome aboard</p>
+      <h1 id="loginTitle">Login</h1>
+      <p class="auth-intro">Sign in with your email and password to access your account.</p>
+
+      <form id="loginForm" class="auth-form">
+        <label for="loginEmail">Email address</label>
+        <input type="email" id="loginEmail" autocomplete="email" required>
+
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" autocomplete="current-password" required>
+
+        <button type="submit" id="loginButton">Log in</button>
+      </form>
+
+      <div class="auth-divider"><span>New here?</span></div>
+
+      <form id="createAccountForm" class="auth-form">
+        <label for="createEmail">Email address</label>
+        <input type="email" id="createEmail" autocomplete="email" required>
+
+        <label for="createPassword">Create a password</label>
+        <input type="password" id="createPassword" autocomplete="new-password" minlength="6" required>
+
+        <button type="submit" id="createAccountButton" class="secondary-button">Create account</button>
+      </form>
+
+      <p id="loginMessage" class="auth-message" role="status" aria-live="polite"></p>
+
+      <div id="loggedInPanel" class="logged-in-panel" hidden>
+        <p>Signed in as <strong id="loggedInEmail"></strong></p>
+        <button type="button" id="logoutButton" class="text-button">Log out</button>
+      </div>
+
+      <a class="back-link" href="projects.html">Continue to projects &rarr;</a>
+    </section>
+  </main>
+
+  <footer>&copy; Your Name | <span id="currentYear"></span></footer>
+  <script>
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    document.getElementById('menu-icon').addEventListener('click', () => {
+      const nav = document.querySelector('nav');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    });
+  </script>
+</body>
+
+</html>
