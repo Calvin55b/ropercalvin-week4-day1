@@ -77,11 +77,11 @@ function drawCenterLine() {
 }
 
 function movePlayer() {
-    if (keys["w"]) {
+    if (keys["w"] || keys["arrowup"]) {
         player.y -= player.speed;
     }
 
-    if (keys["s"]) {
+    if (keys["s"] || keys["arrowdown"]) {
         player.y += player.speed;
     }
 
