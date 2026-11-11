@@ -147,6 +147,118 @@ footer {
   margin-top: auto;
 }
 
+.auth-page {
+  width: 100%;
+  padding: 50px 20px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 34px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  text-align: left;
+}
+
+.auth-card h1 {
+  margin: 0 0 8px;
+  color: #333;
+  font-size: 2.2rem;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #006eb6;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.auth-intro {
+  margin: 0 0 24px;
+  color: #666;
+}
+
+.auth-form {
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.auth-form input {
+  border: 1px solid #c9c9c9;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.auth-form button {
+  width: 100%;
+  margin-top: 4px;
+  font-size: 1rem;
+}
+
+.secondary-button {
+  background-color: #006eb6;
+}
+
+.secondary-button:hover {
+  background-color: #00558d;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 26px 0;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: #ddd;
+}
+
+.auth-message {
+  min-height: 22px;
+  margin: 18px 0 0;
+  font-size: 0.95rem;
+}
+
+.auth-message.error { color: #b42318; }
+.auth-message.success { color: #18794e; }
+
+.logged-in-panel {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 8px;
+  background: #eef8f2;
+  color: #24543b;
+}
+
+.logged-in-panel p { margin: 0 0 8px; }
+
+.text-button {
+  padding: 0;
+  background: transparent;
+  color: #006eb6;
+  text-decoration: underline;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 24px;
+  color: #006eb6;
+  font-weight: 700;
+}
+
   /* It would be better to do a min-width and redo the css for mobile friendly loading first */
   /* This CSS is applied when the screen size/browser is less than 600px wide */
   @media (max-width: 600px) {
