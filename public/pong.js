@@ -36,6 +36,12 @@ const ball = {
 const keys = {};
 
 document.addEventListener("keydown", function(event) {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+        event.preventDefault();
+    }
+});
+
+document.addEventListener("keydown", function(event) {
     keys[event.key.toLowerCase()] = true;
 });
 
