@@ -53,7 +53,7 @@
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
         await signInWithEmailAndPassword(auth, email, password);
-        showMessage('Welcome aboard! You are signed in.');
+        window.location.assign('pong.html');
       } catch (error) {
         showMessage(friendlyError(error), true);
       } finally {
@@ -70,8 +70,7 @@
         const email = document.getElementById('createEmail').value.trim();
         const password = document.getElementById('createPassword').value;
         await createUserWithEmailAndPassword(auth, email, password);
-        showMessage('Your account is ready. Welcome aboard!');
-        createAccountForm.reset();
+        window.location.assign('pong.html');
       } catch (error) {
         showMessage(friendlyError(error), true);
       } finally {
