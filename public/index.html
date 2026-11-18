@@ -54,7 +54,7 @@
         const email = document.getElementById('loginEmail').value.trim();
         const password = document.getElementById('loginPassword').value;
         await signInWithEmailAndPassword(auth, email, password);
-        showMessage('Welcome aboard! You are signed in.');
+        window.location.assign('pong.html');
       } catch (error) {
         showMessage(friendlyError(error), true);
       } finally {
@@ -71,8 +71,7 @@
         const email = document.getElementById('createEmail').value.trim();
         const password = document.getElementById('createPassword').value;
         await createUserWithEmailAndPassword(auth, email, password);
-        showMessage('Your account is ready. Welcome aboard!');
-        createAccountForm.reset();
+        window.location.assign('pong.html');
       } catch (error) {
         showMessage(friendlyError(error), true);
       } finally {
@@ -96,21 +95,19 @@
   </script>
 </head>
 
-<body>
+<body class="auth-screen">
   <header>
     <span id="menu-icon" class="menu-icon">&#9776; Menu</span>
     <nav class="show">
-      <img id="logoimg" src="logo.png" alt="Firebase logo">
       <a href="pong.html">Pong</a>
-      <a href="index.html" aria-current="page">Login</a>
     </nav>
   </header>
 
   <main class="auth-page">
     <section class="auth-card" aria-labelledby="loginTitle">
-      <p class="eyebrow">Welcome aboard</p>
+      <p class="eyebrow">Arcade access</p>
       <h1 id="loginTitle">Login</h1>
-      <p class="auth-intro">Sign in with your email and password to access your account.</p>
+      <p class="auth-intro">Sign in to jump back into the game.</p>
 
       <form id="loginForm" class="auth-form">
         <label for="loginEmail">Email address</label>
@@ -141,7 +138,7 @@
         <button type="button" id="logoutButton" class="text-button">Log out</button>
       </div>
 
-      <a class="back-link" href="pong.html">Continue to pong &rarr;</a>
+      <a class="back-link" href="pong.html">Back to the game &rarr;</a>
     </section>
   </main>
 

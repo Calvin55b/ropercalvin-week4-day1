@@ -259,6 +259,169 @@ footer {
   font-weight: 700;
 }
 
+body.auth-screen {
+  min-height: 100vh;
+  color: #fff;
+  text-align: left;
+  background:
+    linear-gradient(rgba(10, 5, 31, 0.82), rgba(10, 5, 31, 0.94)),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 39px,
+      rgba(0, 234, 255, 0.12) 40px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 39px,
+      rgba(0, 234, 255, 0.12) 40px
+    ),
+    radial-gradient(circle at 50% 20%, #273476, #09051a 68%);
+}
+
+.auth-screen header {
+  flex: 0 0 64px;
+  height: auto;
+  background: rgba(9, 5, 26, 0.94);
+  border-bottom: 1px solid rgba(0, 234, 255, 0.55);
+  box-shadow: 0 0 16px rgba(0, 234, 255, 0.2);
+}
+
+.auth-screen .menu-icon {
+  color: #00eaff;
+}
+
+.auth-screen nav {
+  gap: 8px;
+}
+
+.auth-screen nav a {
+  margin: 0;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #d7e8f7;
+  letter-spacing: 0.06em;
+}
+
+.auth-screen nav a:hover,
+.auth-screen nav a[aria-current="page"] {
+  border-color: #00eaff;
+  background: #10265c;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 234, 255, 0.35);
+}
+
+.auth-screen .auth-page {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 5vw, 56px) 20px;
+}
+
+.auth-screen .auth-card {
+  box-sizing: border-box;
+  width: min(100%, 460px);
+  margin: 0;
+  border: 1px solid rgba(0, 234, 255, 0.8);
+  border-radius: 6px;
+  background: rgba(7, 14, 34, 0.94);
+  box-shadow:
+    0 0 20px rgba(0, 234, 255, 0.2),
+    inset 0 0 24px rgba(0, 234, 255, 0.04);
+}
+
+.auth-screen .auth-card h1 {
+  color: #fff;
+  letter-spacing: 0.12em;
+  text-shadow:
+    3px 3px 0 #ff2bd6,
+    -2px -2px 0 #00eaff,
+    0 0 18px rgba(255, 43, 214, 0.55);
+}
+
+.auth-screen .eyebrow {
+  color: #00eaff;
+}
+
+.auth-screen .auth-intro,
+.auth-screen .auth-divider {
+  color: #a8bad0;
+}
+
+.auth-screen .auth-form {
+  background: transparent;
+}
+
+.auth-screen .auth-form label {
+  color: #d7e8f7;
+}
+
+.auth-screen .auth-form input {
+  border: 1px solid #41627f;
+  border-radius: 4px;
+  background: #0b1727;
+  color: #fff;
+}
+
+.auth-screen .auth-form input:focus {
+  border-color: #00eaff;
+  outline: 2px solid rgba(0, 234, 255, 0.25);
+}
+
+.auth-screen .auth-form button {
+  padding: 14px 16px;
+  border: 2px solid #00eaff;
+  border-radius: 4px;
+  background: #10265c;
+  color: #fff;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.auth-screen .auth-form button:hover {
+  border-color: #ff2bd6;
+  background: #ff2bd6;
+}
+
+.auth-screen .auth-divider {
+  margin: 26px 0;
+}
+
+.auth-screen .auth-divider::before,
+.auth-screen .auth-divider::after {
+  background: rgba(0, 234, 255, 0.38);
+}
+
+.auth-screen .auth-message.error {
+  color: #ff8a9e;
+}
+
+.auth-screen .auth-message.success {
+  color: #8dff3f;
+}
+
+.auth-screen .logged-in-panel {
+  border: 1px solid rgba(141, 255, 63, 0.5);
+  background: rgba(38, 115, 61, 0.2);
+  color: #e4ffd0;
+}
+
+.auth-screen .text-button,
+.auth-screen .back-link {
+  color: #00eaff;
+}
+
+.auth-screen .text-button:hover,
+.auth-screen .back-link:hover {
+  color: #ff2bd6;
+}
+
+.auth-screen footer {
+  background: rgba(9, 5, 26, 0.94);
+  border-top: 1px solid rgba(0, 234, 255, 0.35);
+  color: #a8bad0;
+}
+
   /* It would be better to do a min-width and redo the css for mobile friendly loading first */
   /* This CSS is applied when the screen size/browser is less than 600px wide */
   @media (max-width: 600px) {
