@@ -43,6 +43,12 @@ const keys = {};
 let gameRunning = false;
 
 document.addEventListener("keydown", function(event) {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+        event.preventDefault();
+    }
+});
+
+document.addEventListener("keydown", function(event) {
     keys[event.key.toLowerCase()] = true;
 });
 
@@ -107,11 +113,11 @@ function drawCenterLine() {
 }
 
 function movePlayer() {
-    if (keys["w"]) {
+    if (keys["w"] || keys["arrowup"]) {
         player.y -= player.speed;
     }
 
-    if (keys["s"]) {
+    if (keys["s"] || keys["arrowdown"]) {
         player.y += player.speed;
     }
 
