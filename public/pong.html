@@ -8,6 +8,19 @@
     <title>Pong Arena</title>
 
     <link rel="stylesheet" href="style.css">
+    <script src="config.js" defer></script>
+    <script type="module" defer>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const playerName = document.getElementById("playerName");
+
+        onAuthStateChanged(auth, (user) => {
+            playerName.textContent = user?.email || "PLAYER";
+        });
+    </script>
 </head>
 <body>
     <main class="app-shell">
@@ -53,7 +66,7 @@
 
             <div class="scoreboard" aria-live="polite">
                 <div>
-                    <span>PLAYER</span>
+                    <span id="playerName">PLAYER</span>
                     <strong id="playerScore">0</strong>
                 </div>
 
