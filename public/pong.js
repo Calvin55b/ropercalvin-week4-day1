@@ -3,9 +3,13 @@ const ctx = canvas.getContext("2d");
 
 const playerScoreDisplay = document.getElementById("playerScore");
 const computerScoreDisplay = document.getElementById("computerScore");
+const restartButton = document.getElementById("restartButton");
 
 const paddleWidth = 15;
 const paddleHeight = 100;
+
+/* CHANGED: Controls how much the ball speeds up after each paddle hit */
+const ballHitSpeedIncrease = 0.25;
 
 const player = {
     x: 20,
@@ -35,6 +39,9 @@ const ball = {
 
 const keys = {};
 
+/* CHANGED: Tracks whether the game screen is active */
+let gameRunning = false;
+
 document.addEventListener("keydown", function(event) {
     keys[event.key.toLowerCase()] = true;
 });
@@ -42,6 +49,29 @@ document.addEventListener("keydown", function(event) {
 document.addEventListener("keyup", function(event) {
     keys[event.key.toLowerCase()] = false;
 });
+
+/* CHANGED: Added navigation for menu buttons */
+document.querySelectorAll("[data-screen]").forEach(function(button) {
+    button.addEventListener("click", function() {
+        showScreen(button.dataset.screen);
+    });
+});
+
+/* CHANGED: Added restart button functionality */
+restartButton.addEventListener("click", resetGame);
+
+/* CHANGED: Shows the selected menu or game screen */
+function showScreen(screenId) {
+    document.querySelectorAll(".screen").forEach(function(screen) {
+        screen.classList.toggle("active", screen.id === screenId);
+    });
+
+    gameRunning = screenId === "gameScreen";
+
+    if (gameRunning) {
+        resetGame();
+    }
+}
 
 function drawRectangle(x, y, width, height) {
     ctx.fillStyle = "white";
@@ -85,18 +115,13 @@ function movePlayer() {
         player.y += player.speed;
     }
 
-    // Keep paddle inside canvas
-    if (player.y < 0) {
-        player.y = 0;
-    }
-
-    if (player.y + player.height > canvas.height) {
-        player.y = canvas.height - player.height;
-    }
+    player.y = Math.max(
+        0,
+        Math.min(canvas.height - player.height, player.y)
+    );
 }
 
 function moveComputer() {
-
     const computerCenter = computer.y + computer.height / 2;
 
     if (computerCenter < ball.y - 10) {
@@ -107,22 +132,25 @@ function moveComputer() {
         computer.y -= computer.speed;
     }
 
-    // Keep computer inside canvas
-    if (computer.y < 0) {
-        computer.y = 0;
-    }
+    computer.y = Math.max(
+        0,
+        Math.min(canvas.height - computer.height, computer.y)
+    );
+}
 
-    if (computer.y + computer.height > canvas.height) {
-        computer.y = canvas.height - computer.height;
-    }
+/* CHANGED: Increases the ball's horizontal speed */
+function increaseBallSpeed() {
+    const horizontalDirection = Math.sign(ball.speedX);
+
+    ball.speedX =
+        horizontalDirection *
+        (Math.abs(ball.speedX) + ballHitSpeedIncrease);
 }
 
 function moveBall() {
-
     ball.x += ball.speedX;
     ball.y += ball.speedY;
 
-    // Top and bottom collision
     if (
         ball.y - ball.radius <= 0 ||
         ball.y + ball.radius >= canvas.height
@@ -130,34 +158,44 @@ function moveBall() {
         ball.speedY *= -1;
     }
 
-    // Player paddle collision
-    if (
+    /* CHANGED: Player collision only triggers when ball is moving left */
+    const hitPlayer =
+        ball.speedX < 0 &&
         ball.x - ball.radius <= player.x + player.width &&
         ball.x > player.x &&
         ball.y >= player.y &&
-        ball.y <= player.y + player.height
-    ) {
+        ball.y <= player.y + player.height;
+
+    if (hitPlayer) {
+        ball.x = player.x + player.width + ball.radius;
         ball.speedX = Math.abs(ball.speedX);
+
+        /* CHANGED: Increase speed after player hits ball */
+        increaseBallSpeed();
     }
 
-    // Computer paddle collision
-    if (
+    /* CHANGED: Computer collision only triggers when ball is moving right */
+    const hitComputer =
+        ball.speedX > 0 &&
         ball.x + ball.radius >= computer.x &&
         ball.x < computer.x + computer.width &&
         ball.y >= computer.y &&
-        ball.y <= computer.y + computer.height
-    ) {
+        ball.y <= computer.y + computer.height;
+
+    if (hitComputer) {
+        ball.x = computer.x - ball.radius;
         ball.speedX = -Math.abs(ball.speedX);
+
+        /* CHANGED: Increase speed after computer hits ball */
+        increaseBallSpeed();
     }
 
-    // Computer scores
     if (ball.x < 0) {
         computer.score++;
         updateScore();
         resetBall();
     }
 
-    // Player scores
     if (ball.x > canvas.width) {
         player.score++;
         updateScore();
@@ -171,25 +209,42 @@ function updateScore() {
 }
 
 function resetBall() {
-
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
 
-    ball.speedX *= -1;
+    /* CHANGED: Resets horizontal speed to a normal starting speed */
+    ball.speedX = ball.speedX > 0 ? -5 : 5;
 
-    // Give the ball a random vertical direction
     ball.speedY = Math.random() > 0.5 ? 4 : -4;
 }
 
+/* CHANGED: Resets the entire game */
+function resetGame() {
+    player.score = 0;
+    computer.score = 0;
+
+    player.y = canvas.height / 2 - player.height / 2;
+    computer.y = canvas.height / 2 - computer.height / 2;
+
+    ball.speedX = 5;
+    ball.speedY = 4;
+
+    updateScore();
+    resetBall();
+}
+
 function update() {
+    /* CHANGED: Game only updates after pressing START */
+    if (!gameRunning) {
+        return;
+    }
+
     movePlayer();
     moveComputer();
     moveBall();
 }
 
 function draw() {
-
-    // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawCenterLine();
@@ -218,4 +273,6 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
+/* CHANGED: Initializes the starting scoreboard and animation */
+updateScore();
 gameLoop();

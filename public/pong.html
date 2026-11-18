@@ -3,24 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong</title>
+
+    <!-- CHANGED: Updated page title -->
+    <title>Pong Arena</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <main class="app-shell">
 
-    <p><a href="index.html">Log in with email and password</a></p>
-    <p>Use W and S to move your paddle</p>
+        <!-- CHANGED: Added main menu screen -->
+        <section id="menuScreen" class="screen active" aria-labelledby="gameTitle">
+            <h1 id="gameTitle">PONG ARENA</h1>
+            <p class="subtitle">Classic Pong with a growing challenge</p>
 
-    <h1>PONG</h1>
+            <!-- CHANGED: Added menu buttons -->
+            <div class="menu-buttons">
+                <button class="menu-button primary" data-screen="gameScreen">
+                    START
+                </button>
 
-    <div class="score">
-        <span id="playerScore">0</span>
-        <span>:</span>
-        <span id="computerScore">0</span>
-    </div>
+                <button class="menu-button" data-screen="upgradesScreen">
+                    UPGRADES
+                </button>
 
-    <canvas id="gameCanvas" width="800" height="500"></canvas>
+                <button class="menu-button" data-screen="leaderboardScreen">
+                    LEADER BOARD
+                </button>
+
+                <button class="menu-button" data-screen="customizationScreen">
+                    CUSTOMIZATION
+                </button>
+            </div>
+        </section>
+
+        <!-- CHANGED: Added game screen -->
+        <section id="gameScreen" class="screen" aria-labelledby="gameHeading">
+            <div class="game-header">
+                <button class="small-button" data-screen="menuScreen">
+                    MENU
+                </button>
+
+                <h2 id="gameHeading">PONG ARENA</h2>
+
+                <button id="restartButton" class="small-button">
+                    RESTART
+                </button>
+            </div>
+
+            <div class="scoreboard" aria-live="polite">
+                <div>
+                    <span>PLAYER</span>
+                    <strong id="playerScore">0</strong>
+                </div>
+
+                <div>
+                    <span>COMPUTER</span>
+                    <strong id="computerScore">0</strong>
+                </div>
+            </div>
+
+            <canvas id="gameCanvas" width="900" height="500"></canvas>
+
+            <p class="instructions">
+                Move with <kbd>W</kbd> and <kbd>S</kbd>.
+                The ball speeds up after every paddle hit.
+            </p>
+        </section>
+
+        <!-- CHANGED: Added upgrades placeholder screen -->
+        <section id="upgradesScreen" class="screen info-screen">
+            <h2>UPGRADES</h2>
+            <p>Upgrade options will appear here in a future version.</p>
+
+            <button class="menu-button" data-screen="menuScreen">
+                BACK TO MENU
+            </button>
+        </section>
+
+        <!-- CHANGED: Added leaderboard placeholder screen -->
+        <section id="leaderboardScreen" class="screen info-screen">
+            <h2>LEADER BOARD</h2>
+            <p>Your best scores will be displayed here in a future version.</p>
+
+            <button class="menu-button" data-screen="menuScreen">
+                BACK TO MENU
+            </button>
+        </section>
+
+        <!-- CHANGED: Added customization placeholder screen -->
+        <section id="customizationScreen" class="screen info-screen">
+            <h2>CUSTOMIZATION</h2>
+            <p>
+                Paddle, ball, and arena customization will appear here
+                in a future version.
+            </p>
+
+            <button class="menu-button" data-screen="menuScreen">
+                BACK TO MENU
+            </button>
+        </section>
+    </main>
 
     <script src="pong.js"></script>
 </body>
